@@ -13,10 +13,10 @@ padRight.height = 80
 ball = {}
 ball.positionX = 0
 ball.positionY = 0
-ball.width = 10
-ball.height = 10
-ball.speedX = 4
-ball.speedY = 4
+ball.width = 15
+ball.height = 15
+ball.speedX = 3
+ball.speedY = 3
 
 function love.load()
   -- centring of the ball
@@ -41,7 +41,7 @@ function love.update(dt)
     ball.speedY = -ball.speedY
   end
   
-  if ball.positionY <= 10 then
+  if ball.positionY <= 0 then
     ball.speedY = -ball.speedY
   end
     
@@ -49,15 +49,18 @@ function love.update(dt)
     ball.speedX = -ball.speedX
   end
   
-  if ball.positionX <= 10 then
+  if ball.positionX <= 0 then
     ball.speedX = -ball.speedX
   end
   
+  if ball.positionX <= padLeft.width and (ball.positionY + ball.height) > padLeft.positionY and ball.positionY < (padLeft.positionY + padLeft.height) then
+    ball.speedX = -ball.speedX
+  end
 end
 
 function love.draw()
   love.graphics.rectangle('fill', padLeft.positionX, padLeft.positionY, padLeft.width, padLeft.height)
   love.graphics.rectangle('fill', padRight.positionX, padRight.positionY, padRight.width, padRight.height)
   
-  love.graphics.circle('fill', ball.positionX, ball.positionY, ball.width, ball.height)
+  love.graphics.rectangle('fill', ball.positionX, ball.positionY, ball.width, ball.height)
 end
