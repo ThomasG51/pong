@@ -15,6 +15,8 @@ ball.positionX = 0
 ball.positionY = 0
 ball.width = 10
 ball.height = 10
+ball.speedX = 4
+ball.speedY = 4
 
 function love.load()
   -- centring of the ball
@@ -25,11 +27,30 @@ end
 function love.update(dt)
   
   if love.keyboard.isDown('up') and padLeft.positionY > 0 then
-    padLeft.positionY = padLeft.positionY - 2
+    padLeft.positionY = padLeft.positionY - 4
   end
   
   if love.keyboard.isDown('down') and (padLeft.positionY + padLeft.height) < love.graphics.getHeight() then
-    padLeft.positionY = padLeft.positionY + 2
+    padLeft.positionY = padLeft.positionY + 4
+  end
+  
+  ball.positionY = ball.positionY + ball.speedY
+  ball.positionX = ball.positionX + ball.speedX
+  
+  if ball.positionY > (love.graphics.getHeight() - ball.height) then
+    ball.speedY = -ball.speedY
+  end
+  
+  if ball.positionY <= 10 then
+    ball.speedY = -ball.speedY
+  end
+    
+  if ball.positionX > (love.graphics.getWidth() - ball.width) then
+    ball.speedX = -ball.speedX
+  end
+  
+  if ball.positionX <= 10 then
+    ball.speedX = -ball.speedX
   end
   
 end
