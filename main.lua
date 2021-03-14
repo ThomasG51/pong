@@ -1,8 +1,12 @@
 require "pads"
 require "ball"
+require "players"
 
 
 function love.load()
+  player1.score = 0
+  player2.score = 0
+  
   padLeft.positionX = 0
   padLeft.positionY = 0
   
@@ -43,11 +47,17 @@ function love.update(dt)
   end
   
   -- collisions management with left and right walls
-  if ball.positionX <= 0 or (ball.positionX + ball.width) >= love.graphics.getWidth() then
+  if ball.positionX <= 0 then
+    player2.score = player2.score + 1
     ballCentring()
   end
   
-  -- Pads collision
+  if (ball.positionX + ball.width) >= love.graphics.getWidth() then
+    player1.score = player1.score + 1
+    ballCentring()
+  end
+  
+  -- Pads collisions
   -- if ... and - (the bottom of the ball) is under the top of pad - and - the top of the ball is above (the bottom of the pad)
   if ball.positionX <= (padLeft.positionX + padLeft.width) and (ball.positionY + ball.height) > padLeft.positionY and ball.positionY < (padLeft.positionY + padLeft.height) then
     ball.speedX = -ball.speedX
@@ -70,4 +80,7 @@ function love.draw()
   love.graphics.rectangle('fill', padRight.positionX, padRight.positionY, padRight.width, padRight.height)
   
   love.graphics.rectangle('fill', ball.positionX, ball.positionY, ball.width, ball.height)
+  
+  scoreboard = player1.score .. "  -  " .. player2.score
+  love.graphics.print(scoreboard, 380, 10)
 end
